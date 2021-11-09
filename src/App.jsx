@@ -3,6 +3,7 @@ import LoginForm from './components/LoginForm';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import RegistrationForm from './components/RegistrationForm';
 import Navlayout from './layouts/NavLayout';
+import Homepage from './pages/Homepage/Homepage';
 
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navlayout />}>
-            <Route index element={<LoginForm />}></Route>
+            <Route index element={<Homepage></Homepage>}></Route>
             <Route exact path='login/' element={<LoginForm />} />
             <Route exact path='signup/' element={<RegistrationForm />} />
             <Route path='*' element={'123'}></Route>

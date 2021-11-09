@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
-import { userLogin } from '../asyncActions/asyncActions';
+import { userLogin, userRegistration } from '../asyncActions/asyncActions';
 
 function Copyright(props) {
   return (
@@ -45,7 +45,7 @@ export default function RegistrationForm() {
 
     const email = data.get('email');
     const password = data.get('password');
-    dispatch(userLogin(email, password));
+    dispatch(userRegistration(email, password));
   };
 
   return (

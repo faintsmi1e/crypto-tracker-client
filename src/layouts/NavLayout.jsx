@@ -3,6 +3,7 @@ import { Outlet, Link } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import { MenuItem, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import classes from './NavLayout.module.css'
 
 const Navlayout = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,15 +25,16 @@ const Navlayout = () => {
     navigate('/signup')
   }
   return (
-    <div>
+    <div >
+      <div className={classes.NavLayout}>
       <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' onClick={handleHomeClick}>
         Home
       </Button>
       <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' onClick={handleLogInClick}>
-        Log in
+        Sign In
       </Button>
       <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' onClick={handleSignUpClick}>
-        Sign in
+        Sign Up
       </Button>
 
       <Button
@@ -57,6 +59,7 @@ const Navlayout = () => {
 
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
+      </div>
       <Outlet />
     </div>
   );
