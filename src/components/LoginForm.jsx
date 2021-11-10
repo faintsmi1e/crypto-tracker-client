@@ -12,8 +12,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../asyncActions/asyncActions';
+import { useNavigate } from 'react-router';
 
 function Copyright(props) {
   return (
@@ -36,7 +37,10 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LoginForm() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  console.log(state)
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -46,6 +50,8 @@ export default function LoginForm() {
     const email = data.get('email');
     const password = data.get('password');
     dispatch(userLogin(email, password));
+    navigate('/')
+    
   };
 
   return (
@@ -53,6 +59,7 @@ export default function LoginForm() {
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <Box
+      
           sx={{
             marginTop: 8,
             display: 'flex',

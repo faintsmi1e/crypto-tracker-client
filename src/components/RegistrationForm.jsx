@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
-import { userLogin, userRegistration } from '../asyncActions/asyncActions';
+import { userRegistration } from '../asyncActions/asyncActions';
 
 function Copyright(props) {
   return (
@@ -47,7 +47,6 @@ export default function RegistrationForm() {
     const password = data.get('password');
     dispatch(userRegistration(email, password));
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Container component='main' maxWidth='xs'>
@@ -103,7 +102,7 @@ export default function RegistrationForm() {
               <Grid item xs></Grid>
               <Grid item>
                 <Link href='#' variant='body2'>
-                  {"Already have an account? Sign In"}
+                  {'Already have an account? Sign In'}
                 </Link>
               </Grid>
             </Grid>

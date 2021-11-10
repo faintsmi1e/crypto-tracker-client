@@ -1,12 +1,18 @@
 import AuthService from '../services/AuthService';
-import { userLoginAction , userLogoutAction } from '../store/reducers/userReducer';
+import {
+  userCheckAuth,
+  userLoadingAction,
+  userLoginAction,
+  userLogoutAction,
+} from '../store/reducers/userReducer';
 
 export const userLogin = (email, password) => {
   return async function (dispatch) {
-    console.log('login',email,password)
+    
     try {
       const response = await AuthService.login(email, password);
-      localStorage.setItem('token', response.data.acessToken);
+      localStorage.setItem('token', response.data.accessToken);
+      console.log(response.data)
       dispatch(userLoginAction(response.data.user));
     } catch (e) {
       console.log(e.response?.data?.message);
@@ -18,7 +24,7 @@ export const userRegistration = (email, password) => {
   return async function (dispatch) {
     try {
       const response = await AuthService.registration(email, password);
-      localStorage.setItem('token', response.data.acessToken);
+      localStorage.setItem('token', response.data.accessToken);
       dispatch(userLoginAction(response.data.user));
     } catch (e) {
       console.log(e.response?.data?.message);
@@ -34,6 +40,25 @@ export const userLogout = () => {
       dispatch(userLogoutAction({}));
     } catch (e) {
       console.log(e.response?.data?.message);
+    }
+  };
+};
+
+export const checkAuth = () => {
+  return async function (dispatch) {
+    try {
+      dispatch(userLoadingAction(true));
+
+      const response = await AuthService.checkAuth();
+      
+      localStorage.setItem('token', response.data.accessToken);
+     
+
+      dispatch(userCheckAuth(response.data.user));
+    } catch (e) {
+      console.log(e.response?.data?.message);
+    } finally {
+      dispatch(userLoadingAction(false));
     }
   };
 };

@@ -3,62 +3,94 @@ import { Outlet, Link } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import { MenuItem, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import classes from './NavLayout.module.css'
+import classes from './NavLayout.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogout } from '../asyncActions/asyncActions';
 
 const Navlayout = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleExit = () => {
+    setAnchorEl(null);
+    dispatch(userLogout())
+  };
+  const handleProfileClick = () => {
+    setAnchorEl(null);
+    navigate('/profile');
+  };
   const handleLogInClick = () => {
-    navigate('/login')
-  }
+    navigate('/login');
+  };
   const handleHomeClick = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
   const handleSignUpClick = () => {
-    navigate('/signup')
-  }
+    navigate('/signup');
+  };
   return (
-    <div >
+    <div>
       <div className={classes.NavLayout}>
-      <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' onClick={handleHomeClick}>
-        Home
-      </Button>
-      <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' onClick={handleLogInClick}>
-        Sign In
-      </Button>
-      <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' onClick={handleSignUpClick}>
-        Sign Up
-      </Button>
+        <Button
+          id='basic-button'
+          aria-controls='basic-menu'
+          aria-haspopup='true'
+          onClick={handleHomeClick}
+        >
+          Home
+        </Button>
+        {!state.isAuth ? (
+          <>
+          <Button
+            id='basic-button'
+            aria-controls='basic-menu'
+            aria-haspopup='true'
+            onClick={handleLogInClick}
+          >
+            Sign In
+          </Button>
+          <Button
+          id='basic-button'
+          aria-controls='basic-menu'
+          aria-haspopup='true'
+          onClick={handleSignUpClick}
+        >
+          Sign Up
+        </Button>
+          </>
+        ) : (
+          <Button
+            id='basic-button'
+            aria-controls='basic-menu'
+            aria-haspopup='true'
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+          >
+            Profile
+          </Button>
+        )}
+        
+        <Menu
+          id='basic-menu'
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
 
-      <Button
-        id='basic-button'
-        aria-controls='basic-menu'
-        aria-haspopup='true'
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        Profile
-      </Button>
-      <Menu
-        id='basic-menu'
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
+          <MenuItem onClick={handleExit}>Logout</MenuItem>
+        </Menu>
       </div>
       <Outlet />
     </div>
