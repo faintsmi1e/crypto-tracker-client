@@ -1,5 +1,7 @@
 import AuthService from '../services/AuthService';
+import TransactionService from '../services/TransactionService';
 import {
+  userAddTransactionAction,
   userCheckAuth,
   userLoadingAction,
   userLoginAction,
@@ -55,6 +57,22 @@ export const checkAuth = () => {
      
 
       dispatch(userCheckAuth(response.data.user));
+    } catch (e) {
+      console.log(e.response?.data?.message);
+    } finally {
+      dispatch(userLoadingAction(false));
+    }
+  };
+};
+
+export const userAddTransaction = (body) => {
+  return async function (dispatch) {
+    try {
+      dispatch(userLoadingAction(true));
+
+      const response = await TransactionService.saveTransaction(body)
+      
+      dispatch(userAddTransactionAction(response));
     } catch (e) {
       console.log(e.response?.data?.message);
     } finally {
