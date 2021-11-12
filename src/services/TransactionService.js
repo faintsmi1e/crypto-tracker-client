@@ -6,7 +6,7 @@ export default class TransactionService {
   }
 
   static async saveTransaction(body) {
-    return $api.post('/transactions/', { body });
+    return $api.post('/transactions/save',  body );
   }
 
   static async removeTransaction(id) {

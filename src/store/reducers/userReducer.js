@@ -1,7 +1,7 @@
 const defaultState = {
   isLoading: true,
   user: {},
-  transactions: {},
+  transactions: [],
   isAuth: false,
 };
 

@@ -4,6 +4,7 @@ import { Button, TextField, Modal, Typography, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useFetching } from '../../../hooks/useFetching';
 import TransactionService from '../../../services/TransactionService';
+import Headermodal from './HeaderModal/HeaderModal';
 
 const Header = () => {
   const [transaction, setTransaction] = useState({});
@@ -23,7 +24,11 @@ const Header = () => {
         USER
       </h2>
       <div className={classes.Header}>
-        <Button onClick={handleOpen} style={{ marginLeft: '15px' }} variant='outlined'>
+        <Button
+          onClick={handleOpen}
+          style={{ marginLeft: '15px' }}
+          variant='outlined'
+        >
           Add transaction
         </Button>
 
@@ -41,21 +46,12 @@ const Header = () => {
           />
         </div>
       </div>
-      <Modal
-        open={open}
+      <Headermodal 
+        open={open} 
         onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
       >
-        <Box className={classes.ModalBox}>
-          <Typography id='modal-modal-title' variant='h6' component='h2'>
-            Text in a modal
-          </Typography>
-          <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
+      </Headermodal>
+      
     </div>
   );
 };

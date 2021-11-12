@@ -6,15 +6,16 @@ import classes from './UserProfile.module.css';
 import { useFetching } from '../../hooks/useFetching';
 import TransactionService from '../../services/TransactionService';
 import { useSelector } from 'react-redux';
+import TransactionRow from './components/TransactionRow/TransactionRow';
 
 const UserProfile = () => {
   const [transactions, setTransactions] = useState([]);
   const state = useSelector((state) => state);
   const [fetchData, isTransactionsLoading, transactionsError] = useFetching(
     async () => {
-      console.log(state);
-      const response = await TransactionService.fetchTransactions();
-      console.log(response)
+      console.log('userid',state.user.id)
+      const response = await TransactionService.fetchTransactions(state.user.id);
+      console.log('trans fetch',response)
       if (response.data.length > 0) {
         setTransactions(response.data);
       }
@@ -43,8 +44,8 @@ const UserProfile = () => {
         <Tableheader />
 
         <div>
-          {transactions.map(trans => <div>{trans}</div>)}
-          <CircularProgress></CircularProgress>
+          
+          {isTransactionsLoading ? <CircularProgress></CircularProgress>: transactions.map(trans => <TransactionRow style={{display:'flex'}}row={trans}></TransactionRow>) }
         </div>
       </TableContainer>
     </div>

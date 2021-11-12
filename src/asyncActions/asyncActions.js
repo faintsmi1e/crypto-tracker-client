@@ -69,10 +69,10 @@ export const userAddTransaction = (body) => {
   return async function (dispatch) {
     try {
       dispatch(userLoadingAction(true));
-
+      console.log(body)
       const response = await TransactionService.saveTransaction(body)
-      
-      dispatch(userAddTransactionAction(response));
+      console.log(response.data)
+      dispatch(userAddTransactionAction(response.data));
     } catch (e) {
       console.log(e.response?.data?.message);
     } finally {
