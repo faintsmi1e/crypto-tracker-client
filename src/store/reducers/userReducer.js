@@ -17,7 +17,7 @@ export const userReducer = (state = defaultState, action) => {
     case USER_LOGOUT:
       return { ...state, isAuth: false, user: action.payload };
     case CHECK_AUTH:
-      return { ...state, isAuth: true, user: action.payload, isLoading: false };
+      return { ...state, isAuth: true, user: action.payload.user, transactions: action.payload.transactions, isLoading: false };
     case USER_LOADING:
       return { ...state, isLoading: action.payload };
     case USER_ADD_TRANSACTION:

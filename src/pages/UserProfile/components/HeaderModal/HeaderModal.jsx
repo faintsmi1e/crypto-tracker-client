@@ -33,6 +33,8 @@ const Headermodal = (props) => {
   const onSendClick = () => {
     console.log(form)
     dispatch(userAddTransaction(form))
+    props.onClose()
+    setForm(defaultFormState);
   };
   return (
     <Modal

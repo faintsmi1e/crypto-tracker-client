@@ -56,7 +56,7 @@ export const checkAuth = () => {
       localStorage.setItem('token', response.data.accessToken);
      
 
-      dispatch(userCheckAuth(response.data.user));
+      dispatch(userCheckAuth(response.data));
     } catch (e) {
       console.log(e.response?.data?.message);
     } finally {
@@ -68,7 +68,7 @@ export const checkAuth = () => {
 export const userAddTransaction = (body) => {
   return async function (dispatch) {
     try {
-      dispatch(userLoadingAction(true));
+      
       console.log(body)
       const response = await TransactionService.saveTransaction(body)
       console.log(response.data)
