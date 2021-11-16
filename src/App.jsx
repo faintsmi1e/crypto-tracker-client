@@ -15,6 +15,7 @@ import UserProfile from './pages/UserProfile/UserProfile';
 
 function App() {
   const dispatch = useDispatch();
+  
   useEffect(() => {
     if (localStorage.getItem('token')) {
       dispatch(checkAuth());
@@ -24,6 +25,7 @@ function App() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const state = useSelector((state) => state);
+  console.log(state.isLoading);
   return (
     <div className='App'>
       {state.isLoading ? (

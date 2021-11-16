@@ -6,13 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import classes from './NavLayout.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../asyncActions/asyncActions';
+import { userSignupErrorAction } from '../store/reducers/userReducer';
 
 const Navlayout = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const state = useSelector((state) => state);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -21,21 +22,31 @@ const Navlayout = () => {
   };
   const handleExit = () => {
     setAnchorEl(null);
-    dispatch(userLogout())
+    dispatch(userLogout());
+    dispatch(userSignupErrorAction(''));
+    navigate('./');
   };
   const handleProfileClick = () => {
     setAnchorEl(null);
-    navigate('/profile');
+    navigate('./profile');
+    dispatch(userSignupErrorAction(''));
   };
   const handleLogInClick = () => {
-    navigate('/login');
+    
+    navigate('./login');
+    dispatch(userSignupErrorAction(''));
   };
   const handleHomeClick = () => {
-    navigate('/');
+    navigate('./');
+    dispatch(userSignupErrorAction(''));
   };
   const handleSignUpClick = () => {
-    navigate('/signup');
+    
+    navigate('./signup');
+    dispatch(userSignupErrorAction(''));
+    
   };
+
   return (
     <div>
       <div className={classes.NavLayout}>
@@ -49,22 +60,22 @@ const Navlayout = () => {
         </Button>
         {!state.isAuth ? (
           <>
-          <Button
-            id='basic-button'
-            aria-controls='basic-menu'
-            aria-haspopup='true'
-            onClick={handleLogInClick}
-          >
-            Sign In
-          </Button>
-          <Button
-          id='basic-button'
-          aria-controls='basic-menu'
-          aria-haspopup='true'
-          onClick={handleSignUpClick}
-        >
-          Sign Up
-        </Button>
+            <Button
+              id='basic-button'
+              aria-controls='basic-menu'
+              aria-haspopup='true'
+              onClick={handleLogInClick}
+            >
+              Sign In
+            </Button>
+            <Button
+              id='basic-button'
+              aria-controls='basic-menu'
+              aria-haspopup='true'
+              onClick={handleSignUpClick}
+            >
+              Sign Up
+            </Button>
           </>
         ) : (
           <Button
@@ -77,7 +88,7 @@ const Navlayout = () => {
             Profile
           </Button>
         )}
-        
+
         <Menu
           id='basic-menu'
           anchorEl={anchorEl}

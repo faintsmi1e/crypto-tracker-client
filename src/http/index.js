@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 
-export const API_URL = 'http://localhost:8080/api';
+export const API_URL = 'https://calm-sands-74014.herokuapp.com/api';
 
 const $api = axios.create({
   withCredentials: true,

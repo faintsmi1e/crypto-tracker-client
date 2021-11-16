@@ -19,26 +19,29 @@ import Transactionrow from './TransactionRow/TransactionRow';
 function TickerRow({ rows, ticker, ...props }) {
   const [tickerPrice, setTickerPrice] = useState('');
   const [open, setOpen] = useState(false);
-
   let rowTokensAmount = 0;
   let rowSpent = 0;
   rows.forEach((row) => {
     rowTokensAmount += row.amount;
-    
+
     rowSpent += row.buyPrise * row.amount;
   });
-  const rowUsd = Math.floor(tickerPrice * rowTokensAmount)
-  useEffect(() => {
-    const askPriceInterval = setInterval(async () => {
-      const response = await axios.get(
-        `https://api.binance.com/api/v3/ticker/price?symbol=${ticker}`
-      );
-      const price = response?.data?.price;
+  const rowUsd = Math.floor(tickerPrice * rowTokensAmount);
+  const priceLoad = async () => {
+    const response = await axios.get(
+      `https://api.binance.com/api/v3/ticker/price?symbol=${ticker}`
+    );
+    const price = response?.data?.price;
 
-      setTickerPrice(price);
-      console.log(tickerPrice);
-    }, 1000 * 5);
+    setTickerPrice(price);
+  };
+  useEffect(() => {
+    priceLoad();
+    const askPriceInterval = setInterval(async () => {
+      priceLoad();
+    }, 1000 * 60);
     return () => clearInterval(askPriceInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -84,7 +87,7 @@ function TickerRow({ rows, ticker, ...props }) {
             justifyContent: 'flex-end',
           }}
         >
-          {Math.round(tickerPrice * 100) / 100}
+          {Math.round(Number(tickerPrice) * 100) / 100}
         </TableCell>
         <TableCell
           align='right'
@@ -92,7 +95,7 @@ function TickerRow({ rows, ticker, ...props }) {
             flex: '1',
             display: 'flex',
             alignItems: 'center',
-            justifyContent:'flex-end'
+            justifyContent: 'flex-end',
           }}
         >{`${rowUsd} $`}</TableCell>
         <TableCell
@@ -101,9 +104,10 @@ function TickerRow({ rows, ticker, ...props }) {
             flex: '1',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'flex-end',
           }}
         >
-          {tickerPrice ? rowUsd - rowSpent : '0'}
+          {tickerPrice ? (((rowUsd - rowSpent)/rowSpent) * 100).toFixed(2) + '%' + ` (${rowUsd - rowSpent} $)`  : '0'}
         </TableCell>
       </TableRow>
       <TableRow>

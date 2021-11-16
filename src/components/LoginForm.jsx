@@ -40,7 +40,8 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log(state)
+  const error = state.error;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -49,8 +50,7 @@ export default function LoginForm() {
 
     const email = data.get('email');
     const password = data.get('password');
-    dispatch(userLogin(email, password));
-    navigate('/')
+    dispatch(userLogin(email, password, navigate));
     
   };
 
@@ -59,7 +59,6 @@ export default function LoginForm() {
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <Box
-      
           sx={{
             marginTop: 8,
             display: 'flex',
@@ -78,6 +77,8 @@ export default function LoginForm() {
             sx={{ mt: 1 }}
           >
             <TextField
+              error={error ? error : false}
+              helperText={error ? error : ''}
               margin='normal'
               required
               fullWidth

@@ -17,6 +17,7 @@ const Homepage = () => {
   })
   
   
+  
   return (
     <div>
       <h1>{state.isAuth ? `Пользователь aвторизован ${state.user.email}`: "гость"} </h1>

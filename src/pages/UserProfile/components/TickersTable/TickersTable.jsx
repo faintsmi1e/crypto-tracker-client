@@ -2,6 +2,7 @@ import React from 'react';
 import TickerRow from '../TransactionRow/TickerRow';
 
 const Tickerstable = ({transactions}) => {
+  console.log(transactions)
   const tickersWithTransactions = {};
   const tickers = new Set()
   transactions.forEach(trans => {

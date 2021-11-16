@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,7 +13,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userRegistration } from '../asyncActions/asyncActions';
 
 function Copyright(props) {
@@ -37,6 +38,10 @@ const theme = createTheme();
 
 export default function RegistrationForm() {
   const dispatch = useDispatch();
+  const [isLocalLoading, setLocalLoading] = useState(false);
+
+  const error = useSelector((state) => state.error);
+  console.log(error);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,10 +50,11 @@ export default function RegistrationForm() {
 
     const email = data.get('email');
     const password = data.get('password');
-    dispatch(userRegistration(email, password));
+    dispatch(userRegistration(email, password, setLocalLoading));
   };
   return (
     <ThemeProvider theme={theme}>
+      
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <Box
@@ -70,6 +76,8 @@ export default function RegistrationForm() {
             sx={{ mt: 1 }}
           >
             <TextField
+              error={error ? error : false}
+              helperText={error ? error : ''}
               margin='normal'
               required
               fullWidth
@@ -91,6 +99,7 @@ export default function RegistrationForm() {
             />
 
             <Button
+              disabled={isLocalLoading}
               type='submit'
               fullWidth
               variant='contained'
